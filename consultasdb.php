@@ -1,4 +1,4 @@
-    <?php echo "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Consulta DB</title><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD' crossorigin='anonymous'><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' integrity='sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN' crossorigin='anonymous'></script><style>ul{list-style:none;}</style></head><body>";
+    <?php echo "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Consulta DB</title><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD' crossorigin='anonymous'><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' integrity='sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN' crossorigin='anonymous'></script><style>body{background-color:#545a6b;color:white;} ul{list-style:none;}</style></head><body>";
     if (!isset($_GET['send'])) {
         if (isset($_GET['consultar'])) {
             if(str_contains($_GET['consultar'], 'INSERT') || str_contains($_GET['consultar'], 'UPDATE') || str_contains($_GET['consultar'], 'DELETE')){
@@ -15,20 +15,24 @@
                 $selects = mysqli_query($connection, $consultUserSQL);
                 $tablesDB = mysqli_query($connection, $tablesSQL);
                 echo "<div class='container'>";
-                echo "<div class='row'>";
-                echo '<h2 class="justify-content-center d-flex col-12 mt-2 p-4 shadow border">INFORMATION AND DATABASE CONSULTS  </h2>';
+                echo "<div class='row' style='background-color:gray;color:white;'>";
+                echo '<h2 class="justify-content-center d-flex col-12 mt-2 p-4 shadow" style="background-color:gray;color:white;">INFORMATION AND DATABASE CONSULTS  </h2>';
                 echo '<div class="d-flex col-12 justify-content-center shadow mb-4">';
                 echo "<table class='table table-dark text-center'>";
-                while ($select = mysqli_fetch_row($selects)) {
+                if(!str_contains($_GET['consulta'], "INSERT") || !str_contains($_GET['consulta'], "UPDATE") || !str_contains($_GET['consulta'], "DELETE")){
+                    while ($select = mysqli_fetch_row($selects)) {
                     echo "<tr >";
                     for ($i = 0; $i < sizeof($select); $i++) {
                         echo "<td>" . $select[$i] . "</td>";
                     }
                     echo "</tr>";
                 }
+                }else{
+                    header("");
+                }
                 echo "</table>";
                 echo '</div>';
-                echo '<div class="d-flex col-12 justify-content-center shadow mb-4">';
+                echo '<div class="d-flex col-12 justify-content-center shadow mb-4" style="background-color:gray;color:black;">';
                 echo '<form action="" method="GET" class="col-12 mb-5">';
                 echo '<label for="consulta" class="form-label"></label>';
                 echo '<textarea class="form-control" name="consulta" rows="5" 
