@@ -1,7 +1,7 @@
-#Como funciona?
+# Como funciona?
 Script realizado para hacer consultas por SQL a tu base de datos, o mediante XML con el codigo de este mismo, a través de XPATH.
 
-#How does it work?
+# How does it work?
 Script made to make SQL queries to your database, or through XML with its code, through XPATH.
 
 # Consultas SQL y XML
