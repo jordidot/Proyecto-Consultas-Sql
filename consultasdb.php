@@ -1,4 +1,4 @@
-<?php echo "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Consulta DB</title><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD' crossorigin='anonymous'><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' integrity='sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN' crossorigin='anonymous'></script><style>@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');body{background-color:#545a6b;color:white;font-family: 'Nunito', sans-serif;} ul{list-style:none;}</style></head><body>";
+<?php echo "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Consulta DB</title><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD' crossorigin='anonymous'><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' integrity='sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN' crossorigin='anonymous'></script><style>@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');body{font-size:10px;background-color:#545a6b;color:white;font-family: 'Nunito', sans-serif;} ul{list-style:none;}</style></head><body id='body_yes'>";
 
 if (isset($_GET['valor'])) {
     echo '<div class="container">';
@@ -18,8 +18,10 @@ if (isset($_GET['consultar']) || isset($_GET['xmlConsult'])) {
             }
             $xml = new SimpleXMLElement($_GET['xmlData']);
             echo "<div class='container'>";
-            echo '<div class="row">';
-            echo '<a style="text-decoration:none;" class="justify-content-center d-flex" href="./consultasdb.php"><img src="https://cdn-icons-png.flaticon.com/512/8244/8244444.png" width="40" height="40"><input type="button" class="btn btn-dark m-1" value="RETURN TO HOME PAGE"></a>';
+            echo '<div class="row mt-2 mb-2 justify-content-center d-flex">';
+            echo '<input type="button" onClick="StylesWhite()" class="btn btn-light col-3 m-1" name="white" value="Background white">';
+            echo '<input type="button" onClick="StylesBlack()" class="btn btn-dark col-3 m-1" name="black" value="Background black">';
+            echo '<input type="button" onClick="RedirectHome()" class="btn btn-dark col-3 m-1 home" value="Return to home">';
             echo '</div>';
             echo "<div class='row' style='background-color:gray;color:white;'>";
             echo '<h2 class="justify-content-center d-flex col-12 mt-2 p-4 shadow" style="background-color:gray;color:white;">XML CONSULT RESULTS </h2>';
@@ -69,15 +71,17 @@ if (isset($_GET['consultar']) || isset($_GET['xmlConsult'])) {
             $connection = mysqli_connect($host, $user, $password, $dbName);
             $consultUserSQL = $_GET['consulta'];
             $tablesSQL = "SHOW TABLES;";
-            echo '<div class="row">';
-            echo '<a style="text-decoration:none;" class="justify-content-center d-flex" href="./consultasdb.php"><img src="https://cdn-icons-png.flaticon.com/512/8244/8244444.png" width="40" height="40"><input type="button" class="btn btn-dark m-1" value="RETURN TO HOME PAGE"></a>';
-            echo '</div>';
             if ($_GET['consulta'] == null) {
                 header("Location: ./consultasdb.php?consulta=" . $_GET['consultAnterior'] . "&host=" . $host . "&user=" . $user . "&password=" . $password . "&dbName=" . $dbName . "&consultar=New+consult");
             }
             $selects = mysqli_query($connection, $consultUserSQL);
             $tablesDB = mysqli_query($connection, $tablesSQL);
             echo "<div class='container'>";
+            echo '<div class="row mt-2 mb-2 justify-content-center d-flex">';
+            echo '<input type="button" onClick="StylesWhite()" class="btn btn-light col-3 m-1" name="white" value="Background white">';
+            echo '<input type="button" onClick="StylesBlack()" class="btn btn-dark col-3 m-1" name="black" value="Background black">';
+            echo '<input type="button" onClick="RedirectHome()" class="btn btn-dark col-3 m-1 home" value="Return to home">';
+            echo '</div>';
             echo "<div class='row' style='background-color:gray;color:white;'>";
             echo '<h2 class="justify-content-center d-flex col-12 mt-2 p-4 shadow" style="background-color:gray;color:white;">INFORMATION AND DATABASE CONSULTS  </h2>';
             echo '<div class="d-flex col-12 justify-content-center shadow mb-4">';
@@ -112,7 +116,7 @@ if (isset($_GET['consultar']) || isset($_GET['xmlConsult'])) {
             echo '<input type="hidden" value="' . $dbName . '" name="dbName">';
             echo '<input type="hidden" value="' . $consultUserSQL . '" name="consultAnterior">';
             echo '<div class="d-flex col-12 justify-content-center shadow">';
-            echo '<input type="submit" class="btn btn-dark w-100 mt-5" name="consultar" value="New consult">';
+            echo '<input type="submit" class="btn btn-dark w-100 mt-5" name="consultar" value="Send new consult">';
             echo '</div>';
             echo '</form>';
             echo '</div>';
@@ -127,13 +131,13 @@ if (isset($_GET['consultar']) || isset($_GET['xmlConsult'])) {
                 $tablesInfo = mysqli_query($connection, $describeTable);
                 while ($tableInfo = mysqli_fetch_assoc($tablesInfo)) {
                     if ($tableInfo["Key"] == "PRI") {
-                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'> " . $tableInfo["Field"] . "</b> | PRIMARY KEY | ".$tableInfo["Type"]."</li>";
+                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'> " . $tableInfo["Field"] . "</b> | PRIMARY KEY | " . $tableInfo["Type"] . "</li>";
                     }
                     if ($tableInfo["Key"] == "MUL") {
-                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'>" . $tableInfo["Field"] . "</b> | FOREIGN KEY | ".$tableInfo["Type"]."</li>";
+                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'>" . $tableInfo["Field"] . "</b> | FOREIGN KEY | " . $tableInfo["Type"] . "</li>";
                     }
                     if ($tableInfo["Key"] == "") {
-                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'>" . $tableInfo["Field"] . "</b> | ".$tableInfo["Type"]."</li>";
+                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'>" . $tableInfo["Field"] . "</b> | " . $tableInfo["Type"] . "</li>";
                     }
                 }
                 echo "</ol></li></ul>";
@@ -195,20 +199,33 @@ if (isset($_GET['consultar']) || isset($_GET['xmlConsult'])) {
 }
 echo "<script>";
 echo 'function Select(){
-    var text = document.createTextNode("SELECT (camp_name) AS (alias_name) FROM (table_name);");                                    
-    document.getElementById("nonmon").appendChild(text); 
+    var text = "SELECT (camp_name) AS (alias_name) FROM (table_name);";
+    document.getElementById("nonmon").innerHTML = text; 
 }';
 echo 'function Insert(){
-    var text = document.createTextNode("INSERT INTO table_name(camp_name1, camp_name2) VALUES (value_camp1, value_camp2);");                                    
-    document.getElementById("nonmon").appendChild(text); 
+    var text = "INSERT INTO table_name(camp_name1, camp_name2) VALUES (value_camp1, value_camp2);";                                    
+    document.getElementById("nonmon").innerHTML = text;
 }';
 echo 'function Update(){
-    var text = document.createTextNode("UPDATE table_name SET column_name = new_value WHERE condition;");                                    
-    document.getElementById("nonmon").appendChild(text); 
+    var text = "UPDATE table_name SET column_name = new_value WHERE condition;";                                    
+    document.getElementById("nonmon").innerHTML = text;
 }';
 echo 'function Delete(){
-    var text = document.createTextNode("DELETE FROM ntable_name WHERE column_name = value;");                                    
-    document.getElementById("nonmon").appendChild(text); 
+    var text = "DELETE FROM ntable_name WHERE column_name = value;";                                    
+    document.getElementById("nonmon").innerHTML = text; 
+}';
+echo 'function StylesWhite() {
+    var elem = document.getElementById("body_yes");
+    elem.style.background = "white";
+    elem.style.color = "black";
+}';
+echo 'function StylesBlack() {
+    var elem = document.getElementById("body_yes");
+    elem.style.background = "#545a6b";
+    elem.style.color = "white";
+}';
+echo 'function RedirectHome(){
+    window.location.href = "./consultasdb.php";
 }';
 echo "</script>";
 echo "</body></html>";
