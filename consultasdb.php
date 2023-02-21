@@ -127,13 +127,13 @@ if (isset($_GET['consultar']) || isset($_GET['xmlConsult'])) {
                 $tablesInfo = mysqli_query($connection, $describeTable);
                 while ($tableInfo = mysqli_fetch_assoc($tablesInfo)) {
                     if ($tableInfo["Key"] == "PRI") {
-                        echo "<li class=''> " . $tableInfo["Field"] . " <b style='font-size:20px;color:#B58B00;'>*PK*</b></li>";
+                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'> " . $tableInfo["Field"] . "</b> | PRIMARY KEY | ".$tableInfo["Type"]."</li>";
                     }
                     if ($tableInfo["Key"] == "MUL") {
-                        echo "<li class=''>" . $tableInfo["Field"] . " <b style='font-size:20px;color:#B58B00;'>*FK*</b></li>";
+                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'>" . $tableInfo["Field"] . "</b> | FOREIGN KEY | ".$tableInfo["Type"]."</li>";
                     }
                     if ($tableInfo["Key"] == "") {
-                        echo "<li class=''>" . $tableInfo["Field"] . "</li>";
+                        echo "<li class=''><b style='font-size:20px;color:#B58B00;'>" . $tableInfo["Field"] . "</b> | ".$tableInfo["Type"]."</li>";
                     }
                 }
                 echo "</ol></li></ul>";
